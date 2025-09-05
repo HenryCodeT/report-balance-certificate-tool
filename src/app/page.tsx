@@ -221,15 +221,16 @@ const Home: React.FC = () => {
 
     // Dibuja los rectángulos para los logos (espacio reservado)
     pdf.setFillColor(255, 255, 255);
-    pdf.rect(10, 5, 15, 15, "F");
-    pdf.rect(30, 5, 15, 15, "F");
-    pdf.rect(50, 5, 15, 15, "F");
+    // pdf.rect(10, 5, 15, 15, "F");
+    // pdf.rect(30, 5, 15, 15, "F");
+    // pdf.rect(50, 5, 15, 15, "F");
     pdf.setTextColor(0, 0, 0);
     pdf.setFontSize(8);
     // Agrega el texto "LOGO" en los espacios
-    pdf.text("LOGO 1", 17.5, 13, { align: "center" });
-    pdf.text("LOGO 2", 37.5, 13, { align: "center" });
-    pdf.text("LOGO 3", 57.5, 13, { align: "center" });
+    pdf.addImage("/logo_hs_talleres.png", "PNG", 10, 8, 10, 10);
+    pdf.addImage("/logo_1.png", "PNG", 20, 8, 10, 10);
+    pdf.addImage("/logo_2.png", "PNG", 30, 8, 10, 10);
+    pdf.addImage("/logo_3.png", "PNG", 40, 8, 10, 10);
 
     // --- SECCIÓN DE DATOS DEL VEHÍCULO ---
     let yPosition = 35; // Posición 'y' inicial para el contenido
@@ -243,12 +244,12 @@ const Home: React.FC = () => {
       ["Placa:", formData.placa],
       ["Kilometraje:", formData.kilometraje],
       ["Equipo Usado:", formData.equipoUsado],
+      ["Modelo:", formData.modeloVehiculo],
+      ["Procedencia:", formData.procedencia],
     ];
 
     // Datos para la columna derecha
     const rightColumnData = [
-      ["Modelo:", formData.modeloVehiculo],
-      ["Procedencia:", formData.procedencia],
       ["Marca:", formData.marca],
       ["Código:", formData.codigo],
     ];
@@ -260,7 +261,7 @@ const Home: React.FC = () => {
       pdf.text(label, 15, leftY);
       pdf.setFont("helvetica", "normal");
       addWrappedText(pdf, value || "", 45, leftY, 60);
-      leftY += 8;
+      leftY += 5;
     });
 
     // Agrega la columna derecha al PDF
@@ -270,7 +271,7 @@ const Home: React.FC = () => {
       pdf.text(label, 110, rightY);
       pdf.setFont("helvetica", "normal");
       addWrappedText(pdf, value || "", 135, rightY, 60);
-      rightY += 8;
+      rightY += 5;
     });
 
     // Actualiza la posición 'y' a la más baja de las dos columnas
@@ -400,11 +401,17 @@ const Home: React.FC = () => {
       296
     );
 
+
+
+
+
     // Genera el nombre del archivo y lo descarga
     const fileName = `Certificado_Balance_${formData.placa || "Vehiculo"
       }_${new Date().getTime()}.pdf`;
     pdf.save(fileName);
   };
+
+
 
   // Función de validación del formulario
   const isFormValid = (): boolean => {
