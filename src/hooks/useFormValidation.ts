@@ -42,7 +42,6 @@ export const useFormValidation = (formData: FormData) => {
       totalErrors: missingMainFields.length
     };
   }, [isFormValid, getMissingFields]);
-  console.log("Validation Summary:", getValidationSummary);
   
   return {
     isFormValid,

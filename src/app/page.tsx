@@ -51,7 +51,6 @@ const Home: React.FC = () => {
   } = useTireData();
   const { handlePhotoUpload } = usePhotoUpload();
   const { isFormValid } = useFormValidation(formData);
-  console.log("Form Valid:", isFormValid);
   
   // Manejadores de eventos principales
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
