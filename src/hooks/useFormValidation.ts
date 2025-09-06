@@ -25,10 +25,7 @@ export const useFormValidation = (formData: FormData, tireData: TireData[] = [])
   const tireValidation = useMemo(() => {
     const numberOfTires = parseInt(formData.numeroLlantas);
     const activeTires = tireData.slice(0, numberOfTires);
-      console.log('activeTires', activeTires);
-      
     const validationResults = activeTires.map((tire, index) => {
-      console.log('tire', tire);
 
       const hasPhotos = tire.photos && tire.photos.length === 2;
       const hasValidContrapesos = tire.contrapesoInterior >= 0 && tire.contrapesoExterior >= 0;
@@ -43,7 +40,6 @@ export const useFormValidation = (formData: FormData, tireData: TireData[] = [])
         }
       };
     });
-    console.log(validationResults);
     
     const allTiresValid = validationResults.every(result => result.isValid);
     const invalidTires = validationResults.filter(result => !result.isValid);
