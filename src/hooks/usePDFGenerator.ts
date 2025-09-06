@@ -198,7 +198,7 @@ export const usePDFGenerator = () => {
                 </div>
 
                 <!-- Datos de llantas -->
-                <div style="padding: 0px 30px; display: flex; gap: 60px; margin: 20px 0px;">
+                <div style="padding: 0px 30px; display: flex; gap: 80px; margin: 20px 0px;">
                     ${renderTireCell("LH1")}
                     ${renderTireCell("RH1")}
                 </div>
@@ -210,7 +210,7 @@ export const usePDFGenerator = () => {
                         ? `
                 <!-- Separador de página -->
                 <div style="page-break-before: always; height: 120px;"></div>
-                <div style="padding: 0px 30px; display: flex; gap: 60px; margin: 20px 0;">
+                <div style="padding: 0px 30px; display: flex; gap: 80px; margin: 20px 0;">
                     ${renderTireCell("LH2")}
                     ${renderTireCell("RH2")}
                 </div>
