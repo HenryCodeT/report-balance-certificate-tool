@@ -50,7 +50,7 @@ const Home: React.FC = () => {
     removePhoto 
   } = useTireData();
   const { handlePhotoUpload } = usePhotoUpload();
-  const { isFormValid } = useFormValidation(formData, tireData);
+  const { isFormValid } = useFormValidation(formData);
 
   // Manejadores de eventos principales
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {

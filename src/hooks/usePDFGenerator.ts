@@ -1,4 +1,3 @@
-// hooks/usePDFGenerator.ts
 import { useCallback } from "react";
 import { FormData, TireData } from "@/models/interface";
 
@@ -24,153 +23,106 @@ export const usePDFGenerator = () => {
             htmlContent.style.position = "absolute";
             htmlContent.style.left = "-9999px";
             htmlContent.style.top = "0";
-            htmlContent.style.fontSize = "12px";
+            htmlContent.style.fontSize = "14px";
 
             const activeTires = tireData.slice(
                 0,
                 parseInt(formData.numeroLlantas)
             );
 
-            const renderTires1 = (activeTires: TireData[]) => {
-                const filas: Array<"LH1" | "RH1">[] = [["LH1", "RH1"]];
+            // Función de ayuda para validar y renderizar una celda de llanta
+            const renderTireCell = (
+                position: "LH1" | "RH1" | "LH2" | "RH2"
+            ) => {
+                const tire = activeTires.find((t) => t.position === position);
 
-                return filas
-                    .map(
-                        (grupo) => `
-                            <div style="padding: 0px 38px; display: flex; gap: 60px; margin: 20px 0;">
-                              ${grupo
-                                  .map((pos) => {
-                                      const tire = activeTires.find(
-                                          (t) => t.position === pos
-                                      );
-                                      if (!tire) {
-                                          return `<div style="flex: 1; border: 1px solid #ccc; padding: 5px; text-align: center; color: #999;">
-                                                       ${pos} no disponible
-                                                   </div>`;
-                                      }
+                // Validación: la celda se muestra si existe el objeto de llanta
+                // Y SI:
+                // 1. El contrapeso interior no es 0, O
+                // 2. El contrapeso interior es 0 Y hay fotos.
+                const isValid =
+                    tire &&
+                    tire.contrapesoInterior >= 0 &&
+                    tire.photos &&
+                    tire.photos.length > 0;
 
-                                      return `
-                                      <div style="flex: 1; border: 2px solid #000; padding: 1px; border-radius: 5px;">
-                                        <div style="font-weight: bold; margin-bottom: 10px; text-align: center;">
-                                          Parámetros Iniciales ${tire.position}
-                                        </div>
-
-                                        <div style="border-top: 1px solid #000; padding:0px 10px 10px 10px;">
-                                          Contra Peso requerido interior: 
-                                          <span style="font-weight: bold;">
-                                            ${tire.contrapesoInterior}
-                                          </span>
-                                          <span style="color: red; font-weight: bold;">Gr .</span>
-                                        </div>
-      
-                                        <div style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding:0px 10px 10px 10px;">
-                                          Contra Peso requerido exterior: 
-                                          <span style="font-weight: bold;">
-                                            ${tire.contrapesoExterior}
-                                          </span>
-                                          <span style="color: red; font-weight: bold;">Gr .</span>
-                                        </div>
-      
-                                        ${
-                                            tire.photos?.length > 0
-                                                ? tire.photos
-                                                      .map(
-                                                          (photo, idx) => `
-                                                        <div style="margin-bottom: 10px; width: 100%; aspect-ratio: 1 / 1; border: 1px solid #ddd; overflow: hidden;">
-                                                        <img src="${photo.url}" 
-                                                            style="width: 100%; height: 100%; object-fit: cover;" 
-                                                            onerror="this.style.display='none'; this.nextElementSibling.textContent='[Imagen no disponible: ${photo.name}]'">
-                                                        <span></span>
-                                                        </div>
-                                                  `
-                                                      )
-                                                      .join("")
-                                                : "<div>Sin fotos disponibles</div>"
-                                        }
-                                      </div>
-                                    `;
-                                  })
-                                  .join("")}
+                if (isValid) {
+                    return `
+                        <div style="flex: 1; border: 2px solid #000; padding: 1px; border-radius: 5px;">
+                            <div style="font-weight: bold; margin-bottom: 10px; text-align: center;">
+                                Parámetros Iniciales ${tire.position}
                             </div>
-                        `
-                    )
-                    .join("");
-            };
 
-            const renderTires2 = (activeTires: TireData[]) => {
-                const filas: Array<"LH2" | "RH2">[] = [["LH2", "RH2"]];
-
-                return filas
-                    .map(
-                        (grupo) => `
-                            <div style="padding: 0px 38px; display: flex; gap: 60px; margin: 20px 0;">
-                              ${grupo
-                                  .map((pos) => {
-                                      const tire = activeTires.find(
-                                          (t) => t.position === pos
-                                      );
-                                      if (!tire) {
-                                          return `<div style="flex: 1; border: 1px solid #ccc; padding: 5px; text-align: center; color: #999;">
-                                                     ${pos} no disponible
-                                                   </div>`;
-                                      }
-
-                                      return `
-                                            <div style="flex: 1; border: 2px solid #000; padding: 1px; border-radius: 5px;">
-                                              <div style="font-weight: bold; margin-bottom: 10px; text-align: center;">
-                                                Parámetros Iniciales ${
-                                                    tire.position
-                                                }
-                                              </div>
-
-                                              <div style="border-top: 1px solid #000; padding:0px 10px 10px 10px;">
-                                                Contra Peso requerido interior: 
-                                                <span style="font-weight: bold;">
-                                                  ${tire.contrapesoInterior}
-                                                </span>
-                                                <span style="color: red; font-weight: bold;">Gr .</span>
-                                              </div>
-     
-                                              <div style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding:0px 10px 10px 10px;">
-                                                Contra Peso requerido exterior: 
-                                                <span style="font-weight: bold;">
-                                                  ${tire.contrapesoExterior}
-                                                </span>
-                                                <span style="color: red; font-weight: bold;">Gr .</span>
-                                              </div>
-     
-                                              ${
-                                                  tire.photos?.length > 0
-                                                      ? tire.photos
-                                                            .map(
-                                                                (photo) => `
-                                                              <div style="margin-bottom: 10px; width: 100%; aspect-ratio: 1 / 1; border: 1px solid #ddd; overflow: hidden;">
-                                                              <img src="${photo.url}" 
-                                                                  style="width: 100%; height: 100%; object-fit: cover;" 
-                                                                  onerror="this.style.display='none'; this.nextElementSibling.textContent='[Imagen no disponible: ${photo.name}]'">
-                                                              <span></span>
-                                                              </div>
-                                                          `
-                                                            )
-                                                            .join("")
-                                                      : "<div>Sin fotos disponibles</div>"
-                                              }
+                            <div style="border-top: 1px solid #000; padding:0px 10px 10px 10px; font-weight: bold;">
+                                Contra Peso requerido interior: ${tire.contrapesoInterior}
+                                <span style="color: red; font-weight: bold;">Gr .</span>
+                            </div>
+        
+                            <div style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding:0px 10px 10px 10px; font-weight: bold;">
+                                Contra Peso requerido exterior: ${tire.contrapesoExterior}
+                                <span style="color: red; font-weight: bold;">Gr .</span>
+                            </div>
+        
+                            ${
+                                tire.photos?.length > 0
+                                    ? `
+                                    <div style="margin-bottom: 10px; width: 100%; aspect-ratio: 16 / 9; border: 1px solid #ddd; overflow: hidden;">
+                                        <img src="${tire.photos[0].url}" 
+                                            style="width: 100%; height: 100%; object-fit: cover;" 
+                                            onerror="this.style.display='none'; this.nextElementSibling.textContent='[Imagen no disponible: ${
+                                                tire.photos[0].name
+                                            }]'">
+                                    </div>
+                                    ${
+                                        tire.photos?.length > 1
+                                            ? `
+                                        <div style="margin-bottom: 10px; width: 100%; aspect-ratio: 16 / 9; border: 1px solid #ddd; overflow: hidden;">
+                                            <img src="${tire.photos[1].url}" 
+                                                style="width: 100%; height: 100%; object-fit: cover;" 
+                                                onerror="this.style.display='none'; this.nextElementSibling.textContent='[Imagen no disponible: ${tire.photos[1].name}]'">
+                                        </div>
+                                        `
+                                            : `
+                                        <div style="margin-bottom: 10px; width: 100%; aspect-ratio: 16 / 9; border: 1px solid #ddd; overflow: hidden;">
                                             </div>
-                                          `;
-                                  })
-                                  .join("")}
+                                        `
+                                    }
+                                    `
+                                    : "<div>Sin fotos disponibles</div>"
+                            }
+                        </div>
+                    `;
+                } else {
+                    // Si no es válido, se retorna una celda vacía para mantener la estructura
+                    return `
+                        <div style="flex: 1; border: 2px solid #000; padding: 1px; border-radius: 5px; visibility: hidden;">
+                            <div style="font-weight: bold; margin-bottom: 10px; text-align: center;">
+                                Parámetros Iniciales ${position}
                             </div>
-                        `
-                    )
-                    .join("");
+                            <div style="border-top: 1px solid #000; padding:0px 10px 10px 10px;">
+                                Contra Peso requerido interior: 
+                                <span style="font-weight: bold;">
+                                </span>
+                                <span style="color: red; font-weight: bold;">Gr .</span>
+                            </div>
+                            <div style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding:0px 10px 10px 10px;">
+                                Contra Peso requerido exterior: 
+                                <span style="font-weight: bold;">
+                                </span>
+                                <span style="color: red; font-weight: bold;">Gr .</span>
+                            </div>
+                            <div>Sin fotos disponibles</div>
+                        </div>
+                    `;
+                }
             };
 
             // Construir el HTML completo
             htmlContent.innerHTML = `
                 <!-- Encabezado -->
-                <div style="padding: 19px; display: flex; align-items: center; justify-content: center; gap: 10px; position: relative;">
+                <div style="margin-top: 40px; padding: 19px; display: flex; align-items: center; justify-content: center; gap: 10px; position: relative;">
                     <div>
-                        <img src="/logos.jpg" style="width: 270px; height: 150px;" onerror="this.style.display='none'">
+                        <img src="/logos.jpg" style="width: 270px; height: 120px;" onerror="this.style.display='none'">
                     </div>
                     <div style="
                     font-size: 30px; 
@@ -179,42 +131,54 @@ export const usePDFGenerator = () => {
                     border: 2px solid black;
                     margin: 10px;
                     ">
-                        <h1 style="margin: 10px 20px 35px 35px;">
+                        <h1 style="margin: 5px 10px 30px 15px;">
                             Certificado de Balance de Neumáticos
                         </h1>
                     </div>
                 </div>
 
                 <!-- Datos del vehículo -->
-                <div style ="padding: 0px 38px;">
-                    <div><strong>Cliente:</strong>${
-                        formData.cliente || ""
-                    }</div>
-                    <div style="display: flex; gap: 40px;">
-                        <div style="flex: 1; display: flex; flex-direction: column;">
-                            <div><strong>Placa:</strong> ${
-                                formData.placa || ""
-                            }</div>
-                            <div><strong>Kilometraje:</strong> ${
-                                formData.kilometraje || ""
-                            }</div>
+                <div style ="padding: 0px 30px;">
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr);">
+                        <!-- Cliente ocupa 2 columnas -->
+                        <div style="grid-column: span 2;">
+                            <strong>Cliente:</strong> ${formData.cliente || ""}
                         </div>
-                        <div style="flex: 1; display: flex; flex-direction: column;">
-                            <div><strong>Marca:</strong> ${
-                                formData.marca || ""
-                            }</div>
-                            <div><strong>Código:</strong> ${
-                                formData.codigo || ""
-                            }</div>
+                        <div>
+                            <strong>Fecha:</strong> 
+                            ${
+                                formData.fecha
+                                    ? new Date(
+                                          formData.fecha
+                                      ).toLocaleDateString("es-ES")
+                                    : ""
+                            }
                         </div>
-                        <div style="flex: 1; display: flex; flex-direction: column;">
-                            <div><strong>Fecha:</strong> ${
-                                formData.fecha || ""
-                            }</div>
-                            <div><strong>Modelo:</strong> ${
+                        <div>
+                            <strong>Placa:</strong> ${formData.placa || ""}
+                        </div>
+                        <div>
+                            <strong>Marca:</strong> ${formData.marca || ""}
+                        </div>
+                        <div>
+                            <strong>Modelo:</strong> ${
                                 formData.modeloVehiculo || ""
-                            }</div>
+                            }
                         </div>
+                        <div>
+                            <strong>Kilometraje:</strong> 
+                            ${
+                                formData.kilometraje
+                                    ? Number(
+                                          formData.kilometraje
+                                      ).toLocaleString("en-US")
+                                    : ""
+                            }
+                        </div>
+                        <div>
+                            <strong>Código:</strong> ${formData.codigo || ""}
+                        </div>
+                        <div> </div>
                     </div>
                     <div style="margin-top: 10px; margin-bottom: 20px;">
                         <div><strong>Equipo Usado:</strong> ${
@@ -230,24 +194,31 @@ export const usePDFGenerator = () => {
                 </div>
 
                 <!-- Datos de llantas -->
-                ${renderTires1(activeTires)}
-                <!-- Pie de página -->
-                <div style="padding: 10px; margin:10px 38px 0 38px; color: black; font-size: 12px; border: 2px solid #000; text-align: center; border-radius: 5px;">
-                    <div>HS Talleres SRL a través de la ejecución del balanceo, certifica que el vehículo sometido a este procedimiento ha quedado dentro de los parámetros técnicos establecidos, garantizando que el balanceo de sus neumáticos cumple con los estándares requeridos para un óptimo desempeño.</div>
+                <div style="padding: 0px 30px; display: flex; gap: 30px; margin: 40px 0px;">
+                    ${renderTireCell("LH1")}
+                    ${renderTireCell("RH1")}
                 </div>
-               
+               <div style="padding: 10px 10px 20px 10px; margin: 50px 30px 50px 30px; color: black; font-size: 16px; border: 2px solid #000; text-align: center; border-radius: 5px;">
+                    HS Talleres SRL, a través de la ejecución del balanceo, certifica que el vehículo sometido a este procedimiento ha quedado dentro de los parámetros establecidos, garantizando que el balanceo de sus neumáticos cumple con los estándares requeridos para un óptimo desempeño, confort y seguridad en la conducción.
+                </div>
                 ${
                     parseInt(formData.numeroLlantas) === 4
-                        ?   `
-                            <hr style="margin: 60px 0; border: none; height: 0;" />
-                            ${renderTires2(activeTires)}
-                            <!-- Pie de página -->
-                            <div style="padding: 10px; margin:100px 38px 0 38px; color: black; font-size: 12px; border: 2px solid #000; text-align: center; border-radius: 5px;">
-                                <div>HS Talleres SRL a través de la ejecución del balanceo, certifica que el vehículo sometido a este procedimiento ha quedado dentro de los parámetros técnicos establecidos, garantizando que el balanceo de sus neumáticos cumple con los estándares requeridos para un óptimo desempeño.</div>
-                            </div>            
-                            `
+                        ? `
+                <!-- Separador de página -->
+                <div style="page-break-before: always; height: 120px;"></div>
+                <div style="padding: 0px 30px; display: flex; gap: 60px; margin: 20px 0;">
+                    ${renderTireCell("LH2")}
+                    ${renderTireCell("RH2")}
+                </div>
+                <!-- Pie de página -->
+                <div style="padding: 10px 10px 20px 10px; margin: 50px 30px 50px 30px; color: black; font-size: 16px; border: 2px solid #000; text-align: center; border-radius: 5px;">
+                    HS Talleres SRL, a través de la ejecución del balanceo, certifica que el vehículo sometido a este procedimiento ha quedado dentro de los parámetros establecidos, garantizando que el balanceo de sus neumáticos cumple con los estándares requeridos para un óptimo desempeño, confort y seguridad en la conducción.
+                </div>
+                `
                         : ""
                 }
+                
+                
             `;
 
             // Agregar al DOM temporalmente
