@@ -24,12 +24,12 @@ const Home: React.FC = () => {
     cliente: "",
     placa: "",
     kilometraje: "",
-    equipoUsado: "",
+    equipoUsado: "Beissbarth",
     modeloVehiculo: "",
-    procedencia: "",
+    procedencia: "Alemania",
     marca: "",
     codigo: "",
-    modeloEquipo: "",
+    modeloEquipo: "Microtec 795T",
     numeroLlantas: "2",
   });
 
@@ -51,9 +51,10 @@ const Home: React.FC = () => {
   } = useTireData();
   const { handlePhotoUpload } = usePhotoUpload();
   const { isFormValid } = useFormValidation(formData);
-
+  console.log("Form Valid:", isFormValid);
+  
   // Manejadores de eventos principales
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,

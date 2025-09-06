@@ -3,20 +3,42 @@ import { FormData } from '@/models/interface';
 
 interface VehicleFormProps {
     formData: FormData;
-    onInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    onInputChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
 }
 
 const VehicleForm: React.FC<VehicleFormProps> = ({ formData, onInputChange }) => {
-     const fields = [
+    const fields = [
         { name: 'fecha', label: 'Fecha', type: 'date', placeholder: '', required: true },
-        { name: 'cliente', label: 'Cliente', type: 'text', placeholder: 'Nombre del cliente', required: true },
+        {
+            name: 'cliente', label: 'Cliente', type: 'select', placeholder: '', required: true, options: [
+                { value: 'TRANSPORTES Y SERVICIOS HUACRI SAC', label: 'TRANSPORTES Y SERVICIOS HUACRI SAC' },
+                { value: 'TRAIN AMISTAD SAC', label: 'TRAIN AMISTAD SAC' },
+                { value: 'TURISMO CIVA SAC', label: 'TURISMO CIVA SAC' },
+            ]
+        },
         { name: 'placa', label: 'Placa', type: 'text', placeholder: 'ABC-123', required: true },
         { name: 'kilometraje', label: 'Kilometraje', type: 'number', placeholder: '120,000 km', required: true },
         { name: 'equipoUsado', label: 'Equipo Usado', type: 'text', placeholder: 'Balanceadora Modelo X', required: true },
         { name: 'modeloEquipo', label: 'Modelo del Equipo', type: 'text', placeholder: 'Microtec 795T', required: true },
-        { name: 'modeloVehiculo', label: 'Modelo del Vehículo', type: 'text', placeholder: 'Toyota Hilux', required: true },
+        {
+            name: 'modeloVehiculo', label: 'Modelo del Vehículo', type: 'select', placeholder: '', required: true, options: [
+                { value: 'HILUX 1GD', label: 'HILUX 1GD' },
+                { value: 'FORTUNER 1GD', label: 'FORTUNER 1GD' },
+                { value: 'RANGER', label: 'RANGER' },
+                { value: 'K410CB', label: 'K410CB' },
+                { value: 'O500RS 1945', label: 'O500RS 1945' },
+                { value: 'O-500 RS 4579 T/M', label: 'O-500 RS 4579 T/M' },
+            ]
+        },
         { name: 'procedencia', label: 'Procedencia', type: 'text', placeholder: 'Alemania', required: true },
-        { name: 'marca', label: 'Marca', type: 'text', placeholder: 'Toyota', required: true },
+        {
+            name: 'marca', label: 'Marca', type: 'select', placeholder: '', required: true, options: [
+                { value: 'TOYOTA', label: 'TOYOTA' },
+                { value: 'FORD', label: 'FORD' },
+                { value: 'SCANIA', label: 'SCANIA' },
+                { value: 'MERCEDES BENZ', label: 'MERCEDES BENZ' },
+            ]
+        },
         { name: 'codigo', label: 'Código', type: 'text', placeholder: 'VEH-001', required: true },
     ];
 
@@ -33,15 +55,20 @@ const VehicleForm: React.FC<VehicleFormProps> = ({ formData, onInputChange }) =>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
                                 {field.label} {field.required && '*'}
                             </label>
-                            <input
-                                type={field.type}
+                            <select
                                 name={field.name}
                                 value={formData[field.name as keyof FormData]}
                                 onChange={onInputChange}
                                 className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                placeholder={field.placeholder}
                                 required={field.required}
-                            />
+                            >
+                                <option value="" disabled>Seleccione un cliente</option>
+                                {field.options?.map(option => (
+                                    <option key={option.value} value={option.value}>
+                                        {option.label}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                     ))}
             </div>
@@ -53,15 +80,32 @@ const VehicleForm: React.FC<VehicleFormProps> = ({ formData, onInputChange }) =>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
                                 {field.label} {field.required && '*'}
                             </label>
-                            <input
-                                type={field.type}
-                                name={field.name}
-                                value={formData[field.name as keyof FormData]}
-                                onChange={onInputChange}
-                                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                placeholder={field.placeholder}
-                                required={field.required}
-                            />
+                            {field.type === 'select' ? (
+                                <select
+                                    name={field.name}
+                                    value={formData[field.name as keyof FormData]}
+                                    onChange={onInputChange}
+                                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    required={field.required}
+                                >
+                                    <option value="" disabled>Seleccione {field.label.toLowerCase()}</option>
+                                    {field.options?.map(option => (
+                                        <option key={option.value} value={option.value}>
+                                            {option.label}
+                                        </option>
+                                    ))}
+                                </select>
+                            ) : (
+                                <input
+                                    type={field.type}
+                                    name={field.name}
+                                    value={formData[field.name as keyof FormData]}
+                                    onChange={onInputChange}
+                                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    placeholder={field.placeholder}
+                                    required={field.required}
+                                />
+                            )}
                         </div>
                     ))}
             </div>
@@ -79,10 +123,9 @@ const VehicleForm: React.FC<VehicleFormProps> = ({ formData, onInputChange }) =>
                             <input
                                 type={field.type}
                                 name={field.name}
-                                value={formData[field.name as keyof FormData]}
-                                onChange={onInputChange}
-                                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                placeholder={field.placeholder}
+                                defaultValue={field.placeholder}
+                                readOnly
+                                className="w-full p-3 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed"
                                 required={field.required}
                             />
                         </div>

@@ -17,14 +17,9 @@ export const useFormValidation = (formData: FormData) => {
   ];
 
   // Validación de campos del formulario principal
-  const isMainFormValid = useMemo(() => {
+  const isFormValid = useMemo(() => {
     return requiredFields.every((field) => formData[field].trim() !== "");
   }, [formData]);
-
-  // Validación general completa
-  const isFormValid = useMemo(() => {
-    return isMainFormValid;
-  }, [isMainFormValid]);
 
   const getMissingFields = useMemo(() => {
     return requiredFields.filter((field) => formData[field].trim() === "");
@@ -43,15 +38,14 @@ export const useFormValidation = (formData: FormData) => {
     
     return {
       isValid: isFormValid,
-      mainFormValid: isMainFormValid,
       missingMainFields,
       totalErrors: missingMainFields.length
     };
-  }, [isFormValid, isMainFormValid, getMissingFields]);
-
+  }, [isFormValid, getMissingFields]);
+  console.log("Validation Summary:", getValidationSummary);
+  
   return {
     isFormValid,
-    isMainFormValid,
     getMissingFields,
     getFieldValidation,
     getValidationSummary,
