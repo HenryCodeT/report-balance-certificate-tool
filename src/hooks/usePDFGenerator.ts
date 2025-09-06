@@ -54,42 +54,46 @@ export const usePDFGenerator = () => {
                             </div>
 
                             <div style="border-top: 1px solid #000; padding:0px 10px 10px 10px; font-weight: bold;">
-                                Contra Peso requerido interior: ${tire.contrapesoInterior}
+                                Contra Peso requerido interior: ${
+                                    tire.contrapesoInterior
+                                }
                                 <span style="color: red; font-weight: bold;">Gr .</span>
                             </div>
         
                             <div style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding:0px 10px 10px 10px; font-weight: bold;">
-                                Contra Peso requerido exterior: ${tire.contrapesoExterior}
+                                Contra Peso requerido exterior: ${
+                                    tire.contrapesoExterior
+                                }
                                 <span style="color: red; font-weight: bold;">Gr .</span>
                             </div>
         
-                            ${
-                                tire.photos?.length > 0
-                                    ? `
-                                    <div style="margin-bottom: 10px; width: 100%; aspect-ratio: 16 / 9; border: 1px solid #ddd; overflow: hidden;">
-                                        <img src="${tire.photos[0].url}" 
+                           ${
+                               tire.photos?.length > 0
+                                   ? `
+                                <div style="margin-bottom: 10px; width: 100%; aspect-ratio: 4 / 3; border: 1px solid #ddd; overflow: hidden;">
+                                    <img src="${tire.photos[0].url}" 
+                                        style="width: 100%; height: 100%; object-fit: cover;" 
+                                        onerror="this.style.display='none'; this.nextElementSibling.textContent='[Imagen no disponible: ${
+                                            tire.photos[0].name
+                                        }]'">
+                                </div>
+                                ${
+                                    tire.photos?.length > 1
+                                        ? `
+                                    <div style="margin-bottom: 10px; width: 100%; aspect-ratio: 4 / 3; border: 1px solid #ddd; overflow: hidden;">
+                                        <img src="${tire.photos[1].url}" 
                                             style="width: 100%; height: 100%; object-fit: cover;" 
-                                            onerror="this.style.display='none'; this.nextElementSibling.textContent='[Imagen no disponible: ${
-                                                tire.photos[0].name
-                                            }]'">
+                                            onerror="this.style.display='none'; this.nextElementSibling.textContent='[Imagen no disponible: ${tire.photos[1].name}]'">
                                     </div>
-                                    ${
-                                        tire.photos?.length > 1
-                                            ? `
-                                        <div style="margin-bottom: 10px; width: 100%; aspect-ratio: 16 / 9; border: 1px solid #ddd; overflow: hidden;">
-                                            <img src="${tire.photos[1].url}" 
-                                                style="width: 100%; height: 100%; object-fit: cover;" 
-                                                onerror="this.style.display='none'; this.nextElementSibling.textContent='[Imagen no disponible: ${tire.photos[1].name}]'">
-                                        </div>
-                                        `
-                                            : `
-                                        <div style="margin-bottom: 10px; width: 100%; aspect-ratio: 16 / 9; border: 1px solid #ddd; overflow: hidden;">
-                                            </div>
-                                        `
-                                    }
                                     `
-                                    : "<div>Sin fotos disponibles</div>"
-                            }
+                                        : `
+                                    <div style="margin-bottom: 10px; width: 100%; aspect-ratio: 4 / 3; border: 1px solid #ddd; overflow: hidden;">
+                                    </div>
+                                    `
+                                }
+                                `
+                                   : "<div>Sin fotos disponibles</div>"
+                           }
                         </div>
                     `;
                 } else {
@@ -122,10 +126,10 @@ export const usePDFGenerator = () => {
                 <!-- Encabezado -->
                 <div style="margin-top: 40px; padding: 19px; display: flex; align-items: center; justify-content: center; gap: 10px; position: relative;">
                     <div>
-                        <img src="/logos.jpg" style="width: 270px; height: 120px;" onerror="this.style.display='none'">
+                        <img src="/logos.jpg" style="width: 250px; height: 100px;" onerror="this.style.display='none'">
                     </div>
                     <div style="
-                    font-size: 30px; 
+                    font-size: 25px; 
                     font-weight: bold; 
                     border-radius: 5px; 
                     border: 2px solid black;
@@ -194,11 +198,11 @@ export const usePDFGenerator = () => {
                 </div>
 
                 <!-- Datos de llantas -->
-                <div style="padding: 0px 30px; display: flex; gap: 30px; margin: 40px 0px;">
+                <div style="padding: 0px 30px; display: flex; gap: 60px; margin: 20px 0px;">
                     ${renderTireCell("LH1")}
                     ${renderTireCell("RH1")}
                 </div>
-               <div style="padding: 10px 10px 20px 10px; margin: 50px 30px 50px 30px; color: black; font-size: 16px; border: 2px solid #000; text-align: center; border-radius: 5px;">
+               <div style="padding: 10px 10px 20px 10px; margin: 10px 30px 50px 30px; color: black; font-size: 16px; border: 2px solid #000; text-align: center; border-radius: 5px;">
                     HS Talleres SRL, a través de la ejecución del balanceo, certifica que el vehículo sometido a este procedimiento ha quedado dentro de los parámetros establecidos, garantizando que el balanceo de sus neumáticos cumple con los estándares requeridos para un óptimo desempeño, confort y seguridad en la conducción.
                 </div>
                 ${
