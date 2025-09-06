@@ -42,7 +42,6 @@ const Home: React.FC = () => {
 
   // Hooks personalizados
   const { generatePDF } = usePDFGenerator();
-  const { isFormValid } = useFormValidation(formData);
   const { 
     tireData, 
     updateTireCount, 
@@ -51,6 +50,7 @@ const Home: React.FC = () => {
     removePhoto 
   } = useTireData();
   const { handlePhotoUpload } = usePhotoUpload();
+  const { isFormValid } = useFormValidation(formData, tireData);
 
   // Manejadores de eventos principales
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {

@@ -20,16 +20,20 @@ const TireForm: React.FC<TireFormProps> = ({
   onPhotoRemove,
   onPhotoPreview,
 }) => {
+  // Inicializa el estado local con el valor numérico convertido a string.
+  // Ya no se comprueba si el valor es 0 para poner una cadena vacía.
   const [contrapesoInterior, setContrapesoInterior] = useState<string>(
-    tire.contrapesoInterior === 0 ? '' : String(tire.contrapesoInterior)
+    String(tire.contrapesoInterior)
   );
   const [contrapesoExterior, setContrapesoExterior] = useState<string>(
-    tire.contrapesoExterior === 0 ? '' : String(tire.contrapesoExterior)
+    String(tire.contrapesoExterior)
   );
 
   useEffect(() => {
-    setContrapesoInterior(tire.contrapesoInterior === 0 ? '' : String(tire.contrapesoInterior));
-    setContrapesoExterior(tire.contrapesoExterior === 0 ? '' : String(tire.contrapesoExterior));
+    // Actualiza el estado local con los nuevos valores de las props
+    // si cambian.
+    setContrapesoInterior(String(tire.contrapesoInterior));
+    setContrapesoExterior(String(tire.contrapesoExterior));
   }, [tire.contrapesoInterior, tire.contrapesoExterior]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>, field: 'contrapesoInterior' | 'contrapesoExterior') => {
@@ -42,8 +46,13 @@ const TireForm: React.FC<TireFormProps> = ({
         setContrapesoExterior(value);
       }
       const numericValue = parseFloat(value);
+      // Llama a onDataChange solo si el valor es un número válido.
+      // Si el campo está vacío, no se llama a la función para evitar errores.
       if (!isNaN(numericValue)) {
         onDataChange(index, field, numericValue);
+      } else {
+        // Opcional: Si el campo se borra, puedes decidir enviar un 0.
+        // onDataChange(index, field, 0); 
       }
     }
   };
