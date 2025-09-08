@@ -59,41 +59,41 @@ export const usePDFGenerator = () => {
                                 }
                                 <span style="color: red; font-weight: bold;">Gr .</span>
                             </div>
-        
+                    
                             <div style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding:0px 10px 10px 10px; font-weight: bold;">
                                 Contra Peso requerido exterior: ${
                                     tire.contrapesoExterior
                                 }
                                 <span style="color: red; font-weight: bold;">Gr .</span>
                             </div>
-        
-                           ${
-                               tire.photos?.length > 0
-                                   ? `
-                                <div style="margin-bottom: 10px; width: 100%; aspect-ratio: 4 / 3; border: 1px solid #ddd; overflow: hidden;">
-                                    <img src="${tire.photos[0].url}" 
-                                        style="width: 100%; height: 100%; object-fit: cover;" 
-                                        onerror="this.style.display='none'; this.nextElementSibling.textContent='[Imagen no disponible: ${
-                                            tire.photos[0].name
-                                        }]'">
-                                </div>
-                                ${
-                                    tire.photos?.length > 1
-                                        ? `
-                                    <div style="margin-bottom: 10px; width: 100%; aspect-ratio: 4 / 3; border: 1px solid #ddd; overflow: hidden;">
-                                        <img src="${tire.photos[1].url}" 
-                                            style="width: 100%; height: 100%; object-fit: cover;" 
-                                            onerror="this.style.display='none'; this.nextElementSibling.textContent='[Imagen no disponible: ${tire.photos[1].name}]'">
+                    
+                            ${
+                                tire.photos?.length > 0
+                                    ? `
+                                    <div style="margin-bottom: 10px; width: 100%; aspect-ratio: 4 / 3; border: 1px solid #ddd; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+                                        <img src="${tire.photos[0].url}" 
+                                            style="max-width: 100%; max-height: 100%; object-fit: contain;" 
+                                            onerror="this.style.display='none'; this.nextElementSibling.textContent='[Imagen no disponible: ${
+                                                tire.photos[0].name
+                                            }]'">
                                     </div>
+                                    ${
+                                        tire.photos?.length > 1
+                                            ? `
+                                        <div style="margin-bottom: 10px; width: 100%; aspect-ratio: 4 / 3; border: 1px solid #ddd; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+                                            <img src="${tire.photos[1].url}" 
+                                                style="max-width: 100%; max-height: 100%; object-fit: contain;" 
+                                                onerror="this.style.display='none'; this.nextElementSibling.textContent='[Imagen no disponible: ${tire.photos[1].name}]'">
+                                        </div>
+                                        `
+                                            : `
+                                        <div style="margin-bottom: 10px; width: 100%; aspect-ratio: 4 / 3; border: 1px solid #ddd; overflow: hidden;">
+                                        </div>
+                                        `
+                                    }
                                     `
-                                        : `
-                                    <div style="margin-bottom: 10px; width: 100%; aspect-ratio: 4 / 3; border: 1px solid #ddd; overflow: hidden;">
-                                    </div>
-                                    `
-                                }
-                                `
-                                   : "<div>Sin fotos disponibles</div>"
-                           }
+                                    : "<div>Sin fotos disponibles</div>"
+                            }
                         </div>
                     `;
                 } else {
@@ -231,7 +231,7 @@ export const usePDFGenerator = () => {
             try {
                 // Generar canvas del contenido HTML
                 const canvas = await html2canvas(htmlContent, {
-                    scale: 2, // Mayor resolución
+                    scale: 3, // Aumentamos la escala para una mejor calidad de imagen
                     useCORS: true,
                     allowTaint: true,
                     backgroundColor: "#ffffff",
