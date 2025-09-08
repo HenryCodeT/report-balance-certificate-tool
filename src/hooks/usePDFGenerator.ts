@@ -70,7 +70,7 @@ export const usePDFGenerator = () => {
                             ${
                                 tire.photos?.length > 0
                                     ? `
-                                    <div style="width: 100%; aspect-ratio: 4 / 3; border: 2px solid #000; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+                                    <div style="width: 100%; aspect-ratio: 4 / 3; border-top: 2px solid #000; overflow: hidden; display: flex; justify-content: center; align-items: center;">
                                         <img src="${tire.photos[0].url}" 
                                             style="max-width: 100%; max-height: 100%; object-fit: contain;" 
                                             onerror="this.style.display='none'; this.nextElementSibling.textContent='[Imagen no disponible: ${
@@ -80,14 +80,14 @@ export const usePDFGenerator = () => {
                                     ${
                                         tire.photos?.length > 1
                                             ? `
-                                        <div style="width: 100%; aspect-ratio: 4 / 3; border: 2px solid #000; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+                                        <div style="width: 100%; aspect-ratio: 4 / 3; border-top: 2px solid #000; overflow: hidden; display: flex; justify-content: center; align-items: center;">
                                             <img src="${tire.photos[1].url}" 
                                                 style="max-width: 100%; max-height: 100%; object-fit: contain;" 
                                                 onerror="this.style.display='none'; this.nextElementSibling.textContent='[Imagen no disponible: ${tire.photos[1].name}]'">
                                         </div>
                                         `
                                             : `
-                                        <div style="width: 100%; aspect-ratio: 4 / 3; border: 2px solid #000; overflow: hidden;">
+                                        <div style="width: 100%; aspect-ratio: 4 / 3; border-top: 2px solid #000; overflow: hidden;">
                                         </div>
                                         `
                                     }
