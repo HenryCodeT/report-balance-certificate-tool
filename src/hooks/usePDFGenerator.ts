@@ -136,7 +136,7 @@ export const usePDFGenerator = () => {
                     margin: 10px;
                     ">
                         <h1 style="margin: 5px 10px 30px 15px;">
-                            Certificado de Balance de Neumáticos
+                            Certificado de balanceo de neumáticos
                         </h1>
                     </div>
                 </div>
