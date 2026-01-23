@@ -7,6 +7,23 @@ interface VehicleFormProps {
 }
 
 const VehicleForm: React.FC<VehicleFormProps> = ({ formData, onInputChange }) => {
+    // Opciones para los datalist (permite escribir valores nuevos)
+    const modeloVehiculoOptions = [
+        'HILUX 1GD',
+        'FORTUNER 1GD',
+        'RANGER',
+        'K410CB',
+        'O500RS 1945',
+        'O-500 RS 4579 T/M',
+    ];
+
+    const marcaOptions = [
+        'TOYOTA',
+        'FORD',
+        'SCANIA',
+        'MERCEDES BENZ',
+    ];
+
     const fields = [
         { name: 'fecha', label: 'Fecha', type: 'date', placeholder: '', required: true },
         {
@@ -20,25 +37,9 @@ const VehicleForm: React.FC<VehicleFormProps> = ({ formData, onInputChange }) =>
         { name: 'kilometraje', label: 'Kilometraje', type: 'number', placeholder: '120,000 km', required: true },
         { name: 'equipoUsado', label: 'Equipo Usado', type: 'text', placeholder: 'Beissbarth', required: true },
         { name: 'modeloEquipo', label: 'Modelo del Equipo', type: 'text', placeholder: 'Microtec 795T', required: true },
-        {
-            name: 'modeloVehiculo', label: 'Modelo del Vehículo', type: 'select', placeholder: '', required: true, options: [
-                { value: 'HILUX 1GD', label: 'HILUX 1GD' },
-                { value: 'FORTUNER 1GD', label: 'FORTUNER 1GD' },
-                { value: 'RANGER', label: 'RANGER' },
-                { value: 'K410CB', label: 'K410CB' },
-                { value: 'O500RS 1945', label: 'O500RS 1945' },
-                { value: 'O-500 RS 4579 T/M', label: 'O-500 RS 4579 T/M' },
-            ]
-        },
+        { name: 'modeloVehiculo', label: 'Modelo del Vehículo', type: 'datalist', placeholder: 'Seleccione o escriba un modelo', required: true, datalistId: 'modeloVehiculo-list' },
         { name: 'procedencia', label: 'Procedencia', type: 'text', placeholder: 'Alemania', required: true },
-        {
-            name: 'marca', label: 'Marca', type: 'select', placeholder: '', required: true, options: [
-                { value: 'TOYOTA', label: 'TOYOTA' },
-                { value: 'FORD', label: 'FORD' },
-                { value: 'SCANIA', label: 'SCANIA' },
-                { value: 'MERCEDES BENZ', label: 'MERCEDES BENZ' },
-            ]
-        },
+        { name: 'marca', label: 'Marca del Vehículo', type: 'datalist', placeholder: 'Seleccione o escriba una marca', required: true, datalistId: 'marca-list' },
         { name: 'codigo', label: 'Código', type: 'text', placeholder: 'VEH-001', required: true },
         { name: 'marcaNeumaticos', label: 'Marca de Neumáticos', type: 'text', placeholder: 'Michelin', required: true },
         { name: 'modeloNeumaticos', label: 'Modelo de Neumáticos', type: 'text', placeholder: 'Pilot Sport 4', required: true },
@@ -97,6 +98,27 @@ const VehicleForm: React.FC<VehicleFormProps> = ({ formData, onInputChange }) =>
                                         </option>
                                     ))}
                                 </select>
+                            ) : field.type === 'datalist' ? (
+                                <>
+                                    <input
+                                        type="text"
+                                        name={field.name}
+                                        list={field.datalistId}
+                                        value={formData[field.name as keyof FormData]}
+                                        onChange={onInputChange}
+                                        className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        placeholder={field.placeholder}
+                                        required={field.required}
+                                    />
+                                    <datalist id={field.datalistId}>
+                                        {field.name === 'modeloVehiculo' && modeloVehiculoOptions.map(opt => (
+                                            <option key={opt} value={opt} />
+                                        ))}
+                                        {field.name === 'marca' && marcaOptions.map(opt => (
+                                            <option key={opt} value={opt} />
+                                        ))}
+                                    </datalist>
+                                </>
                             ) : (
                                 <input
                                     type={field.type}
