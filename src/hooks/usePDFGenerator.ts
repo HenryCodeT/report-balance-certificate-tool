@@ -29,6 +29,7 @@ export const usePDFGenerator = () => {
                 0,
                 parseInt(formData.numeroLlantas)
             );
+            console.log("formData", formData);
 
             // Función de ayuda para validar y renderizar una celda de llanta
             const renderTireCell = (
@@ -53,47 +54,42 @@ export const usePDFGenerator = () => {
                                 Parámetros Iniciales ${tire.position}
                             </div>
 
-                            <div style="border-top: 1px solid #000; padding:0px 10px 10px 10px; font-weight: bold;">
-                                Contra Peso requerido interior: ${
-                                    tire.contrapesoInterior
-                                }
+                            <div style="border-top: 1px solid #000; padding:0px 10px 10px 10px; font-weight: bold; font-size: 12px;">
+                                Contra Peso requerido interior: ${tire.contrapesoInterior
+                        }
                                 <span style="color: red; font-weight: bold;">Gr .</span>
                             </div>
                     
-                            <div style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding:0px 10px 10px 10px; font-weight: bold;">
-                                Contra Peso requerido exterior: ${
-                                    tire.contrapesoExterior
-                                }
+                            <div style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding:0px 10px 10px 10px; font-weight: bold; font-size: 12px;">
+                                Contra Peso requerido exterior: ${tire.contrapesoExterior
+                        }
                                 <span style="color: red; font-weight: bold;">Gr .</span>
                             </div>
                     
-                            ${
-                                tire.photos?.length > 0
-                                    ? `
+                            ${tire.photos?.length > 0
+                            ? `
                                     <div style="width: 100%; aspect-ratio: 4 / 3; border-top: 2px solid #000; overflow: hidden; display: flex; justify-content: center; align-items: center;">
                                         <img src="${tire.photos[0].url}" 
                                             style="max-width: 100%; max-height: 100%; object-fit: contain;" 
-                                            onerror="this.style.display='none'; this.nextElementSibling.textContent='[Imagen no disponible: ${
-                                                tire.photos[0].name
-                                            }]'">
+                                            onerror="this.style.display='none'; this.nextElementSibling.textContent='[Imagen no disponible: ${tire.photos[0].name
+                            }]'">
                                     </div>
-                                    ${
-                                        tire.photos?.length > 1
-                                            ? `
+                                    ${tire.photos?.length > 1
+                                ? `
                                         <div style="width: 100%; aspect-ratio: 4 / 3; border-top: 2px solid #000; overflow: hidden; display: flex; justify-content: center; align-items: center;">
                                             <img src="${tire.photos[1].url}" 
                                                 style="max-width: 100%; max-height: 100%; object-fit: contain;" 
                                                 onerror="this.style.display='none'; this.nextElementSibling.textContent='[Imagen no disponible: ${tire.photos[1].name}]'">
                                         </div>
                                         `
-                                            : `
+                                : `
                                         <div style="width: 100%; aspect-ratio: 4 / 3; border-top: 2px solid #000; overflow: hidden;">
                                         </div>
                                         `
-                                    }
-                                    `
-                                    : "<div>Sin fotos disponibles</div>"
                             }
+                                    `
+                            : "<div>Sin fotos disponibles</div>"
+                        }
                         </div>
                     `;
                 } else {
@@ -103,13 +99,13 @@ export const usePDFGenerator = () => {
                             <div style="font-weight: bold; margin-bottom: 10px; text-align: center;">
                                 Parámetros Iniciales ${position}
                             </div>
-                            <div style="border-top: 1px solid #000; padding:0px 10px 10px 10px;">
+                            <div style="border-top: 1px solid #000; padding:0px 10px 10px 10px; font-size: 12px;">
                                 Contra Peso requerido interior: 
                                 <span style="font-weight: bold;">
                                 </span>
                                 <span style="color: red; font-weight: bold;">Gr .</span>
                             </div>
-                            <div style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding:0px 10px 10px 10px;">
+                            <div style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding:0px 10px 10px 10px; font-size: 12px;">
                                 Contra Peso requerido exterior: 
                                 <span style="font-weight: bold;">
                                 </span>
@@ -150,13 +146,11 @@ export const usePDFGenerator = () => {
                         </div>
                         <div>
                             <strong>Fecha:</strong> 
-                            ${
-                                formData.fecha
-                                    ? new Date(
-                                          formData.fecha
-                                      ).toLocaleDateString("es-ES")
-                                    : ""
-                            }
+                            ${formData.fecha
+                    ? new Date(formData.fecha + "T00:00:00").toLocaleDateString("es-PE")
+                    : ""
+                }
+                              
                         </div>
                         <div>
                             <strong>Placa:</strong> ${formData.placa || ""}
@@ -165,19 +159,17 @@ export const usePDFGenerator = () => {
                             <strong>Marca:</strong> ${formData.marca || ""}
                         </div>
                         <div>
-                            <strong>Modelo:</strong> ${
-                                formData.modeloVehiculo || ""
-                            }
+                            <strong>Modelo:</strong> ${formData.modeloVehiculo || ""
+                }
                         </div>
                         <div>
                             <strong>Kilometraje:</strong> 
-                            ${
-                                formData.kilometraje
-                                    ? Number(
-                                          formData.kilometraje
-                                      ).toLocaleString("en-US")
-                                    : ""
-                            }
+                            ${formData.kilometraje
+                    ? Number(
+                        formData.kilometraje
+                    ).toLocaleString("en-US")
+                    : ""
+                }
                         </div>
                         <div>
                             <strong>Código:</strong> ${formData.codigo || ""}
@@ -185,15 +177,12 @@ export const usePDFGenerator = () => {
                         <div> </div>
                     </div>
                     <div style="margin-top: 10px; margin-bottom: 20px;">
-                        <div><strong>Equipo Usado:</strong> ${
-                            formData.equipoUsado || ""
-                        }</div>
-                        <div><strong>Modelo:</strong> ${
-                            formData.modeloVehiculo || ""
-                        }</div>
-                        <div><strong>Procedencia:</strong> ${
-                            formData.procedencia || ""
-                        }</div>
+                        <div><strong>Equipo Usado:</strong> ${formData.equipoUsado || ""
+                }</div>
+                        <div><strong>Modelo:</strong> ${formData.modeloEquipo || ""
+                }</div>
+                        <div><strong>Procedencia:</strong> ${formData.procedencia || ""
+                }</div>
                     </div>
                 </div>
 
@@ -205,9 +194,8 @@ export const usePDFGenerator = () => {
                <div style="padding: 10px 10px 20px 10px; margin: 10px 30px 50px 30px; color: black; font-size: 16px; border: 2px solid #000; text-align: center; border-radius: 5px;">
                     HS Talleres SRL, a través de la ejecución del balanceo, certifica que el vehículo sometido a este procedimiento ha quedado dentro de los parámetros establecidos, garantizando que el balanceo de sus neumáticos cumple con los estándares requeridos para un óptimo desempeño, confort y seguridad en la conducción.
                 </div>
-                ${
-                    parseInt(formData.numeroLlantas) === 4
-                        ? `
+                ${parseInt(formData.numeroLlantas) === 4
+                    ? `
                 <!-- Separador de página -->
                 <div style="page-break-before: always; height: 120px;"></div>
                 <div style="padding: 0px 30px; display: flex; gap: 80px; margin: 20px 0;">
@@ -219,7 +207,7 @@ export const usePDFGenerator = () => {
                     HS Talleres SRL, a través de la ejecución del balanceo, certifica que el vehículo sometido a este procedimiento ha quedado dentro de los parámetros establecidos, garantizando que el balanceo de sus neumáticos cumple con los estándares requeridos para un óptimo desempeño, confort y seguridad en la conducción.
                 </div>
                 `
-                        : ""
+                    : ""
                 }
                 
                 
@@ -298,9 +286,8 @@ export const usePDFGenerator = () => {
                 }
 
                 // Generar archivo
-                const fileName = `Certificado_Balance_${
-                    formData.placa || "Vehiculo"
-                }_${new Date().getTime()}.pdf`;
+                const fileName = `Certificado_Balance_${formData.placa || "Vehiculo"
+                    }_${new Date().getTime()}.pdf`;
                 pdf.save(fileName);
             } catch (error) {
                 console.error("Error generando PDF:", error);

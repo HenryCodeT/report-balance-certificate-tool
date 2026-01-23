@@ -18,7 +18,7 @@ const VehicleForm: React.FC<VehicleFormProps> = ({ formData, onInputChange }) =>
         },
         { name: 'placa', label: 'Placa', type: 'text', placeholder: 'ABC-123', required: true },
         { name: 'kilometraje', label: 'Kilometraje', type: 'number', placeholder: '120,000 km', required: true },
-        { name: 'equipoUsado', label: 'Equipo Usado', type: 'text', placeholder: 'Balanceadora Modelo X', required: true },
+        { name: 'equipoUsado', label: 'Equipo Usado', type: 'text', placeholder: 'Beissbarth', required: true },
         { name: 'modeloEquipo', label: 'Modelo del Equipo', type: 'text', placeholder: 'Microtec 795T', required: true },
         {
             name: 'modeloVehiculo', label: 'Modelo del Vehículo', type: 'select', placeholder: '', required: true, options: [
