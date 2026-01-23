@@ -40,6 +40,8 @@ const VehicleForm: React.FC<VehicleFormProps> = ({ formData, onInputChange }) =>
             ]
         },
         { name: 'codigo', label: 'Código', type: 'text', placeholder: 'VEH-001', required: true },
+        { name: 'marcaNeumaticos', label: 'Marca de Neumáticos', type: 'text', placeholder: 'Michelin', required: true },
+        { name: 'modeloNeumaticos', label: 'Modelo de Neumáticos', type: 'text', placeholder: 'Pilot Sport 4', required: true },
     ];
 
     return (
@@ -74,7 +76,7 @@ const VehicleForm: React.FC<VehicleFormProps> = ({ formData, onInputChange }) =>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {fields
-                    .filter(field => ['fecha', 'placa', 'kilometraje', 'modeloVehiculo', 'marca', 'codigo'].includes(field.name))
+                    .filter(field => ['fecha', 'placa', 'kilometraje', 'modeloVehiculo', 'marca', 'codigo', 'marcaNeumaticos', 'modeloNeumaticos'].includes(field.name))
                     .map((field) => (
                         <div key={field.name}>
                             <label className="block text-sm font-medium text-gray-700 mb-2">

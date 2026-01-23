@@ -60,12 +60,15 @@ export const usePDFGenerator = () => {
                                 <span style="color: red; font-weight: bold;">Gr .</span>
                             </div>
                     
-                            <div style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding:0px 10px 10px 10px; font-weight: bold; font-size: 12px;">
-                                Contra Peso requerido exterior: ${tire.contrapesoExterior
-                        }
+                            <div style="border-top: 1px solid #000; padding:0px 10px 10px 10px; font-weight: bold; font-size: 12px;">
+                                Contra Peso requerido exterior: ${tire.contrapesoExterior}
                                 <span style="color: red; font-weight: bold;">Gr .</span>
                             </div>
-                    
+
+                            <div style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding:0px 10px 10px 10px; font-weight: bold; font-size: 12px;">
+                                Número de Serie: ${tire.numeroSerie || ""}
+                            </div>
+
                             ${tire.photos?.length > 0
                             ? `
                                     <div style="width: 100%; aspect-ratio: 4 / 3; border-top: 2px solid #000; overflow: hidden; display: flex; justify-content: center; align-items: center;">
@@ -105,11 +108,14 @@ export const usePDFGenerator = () => {
                                 </span>
                                 <span style="color: red; font-weight: bold;">Gr .</span>
                             </div>
-                            <div style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding:0px 10px 10px 10px; font-size: 12px;">
-                                Contra Peso requerido exterior: 
+                            <div style="border-top: 1px solid #000; padding:0px 10px 10px 10px; font-size: 12px;">
+                                Contra Peso requerido exterior:
                                 <span style="font-weight: bold;">
                                 </span>
                                 <span style="color: red; font-weight: bold;">Gr .</span>
+                            </div>
+                            <div style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding:0px 10px 10px 10px; font-size: 12px;">
+                                Número de Serie:
                             </div>
                             <div>Sin fotos disponibles</div>
                         </div>
@@ -174,15 +180,17 @@ export const usePDFGenerator = () => {
                         <div>
                             <strong>Código:</strong> ${formData.codigo || ""}
                         </div>
-                        <div> </div>
                     </div>
-                    <div style="margin-top: 10px; margin-bottom: 20px;">
-                        <div><strong>Equipo Usado:</strong> ${formData.equipoUsado || ""
-                }</div>
-                        <div><strong>Modelo:</strong> ${formData.modeloEquipo || ""
-                }</div>
-                        <div><strong>Procedencia:</strong> ${formData.procedencia || ""
-                }</div>
+                    <div style="margin-top: 10px; margin-bottom: 20px; display: flex; gap: 40px;">
+                        <div>
+                            <div><strong>Equipo Usado:</strong> ${formData.equipoUsado || ""}</div>
+                            <div><strong>Modelo:</strong> ${formData.modeloEquipo || ""}</div>
+                            <div><strong>Procedencia:</strong> ${formData.procedencia || ""}</div>
+                        </div>
+                        <div>
+                            <div><strong>Marca Neumáticos:</strong> ${formData.marcaNeumaticos || ""}</div>
+                            <div><strong>Modelo Neumáticos:</strong> ${formData.modeloNeumaticos || ""}</div>
+                        </div>
                     </div>
                 </div>
 

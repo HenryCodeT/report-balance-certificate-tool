@@ -6,7 +6,7 @@ import PhotoGallery from './PhotoGallery';
 interface TireFormProps {
   tire: TireData;
   index: number;
-  onDataChange: (index: number, field: keyof Omit<TireData, "id" | "photos" | "position">, value: number) => void;
+  onDataChange: (index: number, field: keyof Omit<TireData, "id" | "photos" | "position">, value: number | string) => void;
   onPhotoUpload: (tireIndex: number, event: ChangeEvent<HTMLInputElement>) => void;
   onPhotoRemove: (tireIndex: number, photoId: number) => void;
   onPhotoPreview: (imageUrl: string, title: string) => void;
@@ -28,13 +28,15 @@ const TireForm: React.FC<TireFormProps> = ({
   const [contrapesoExterior, setContrapesoExterior] = useState<string>(
     String(tire.contrapesoExterior)
   );
+  const [numeroSerie, setNumeroSerie] = useState<string>(tire.numeroSerie || "");
 
   useEffect(() => {
     // Actualiza el estado local con los nuevos valores de las props
     // si cambian.
     setContrapesoInterior(String(tire.contrapesoInterior));
     setContrapesoExterior(String(tire.contrapesoExterior));
-  }, [tire.contrapesoInterior, tire.contrapesoExterior]);
+    setNumeroSerie(tire.numeroSerie || "");
+  }, [tire.contrapesoInterior, tire.contrapesoExterior, tire.numeroSerie]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>, field: 'contrapesoInterior' | 'contrapesoExterior') => {
     const { value } = e.target;
@@ -52,9 +54,15 @@ const TireForm: React.FC<TireFormProps> = ({
         onDataChange(index, field, numericValue);
       } else {
         // Opcional: Si el campo se borra, puedes decidir enviar un 0.
-        // onDataChange(index, field, 0); 
+        // onDataChange(index, field, 0);
       }
     }
+  };
+
+  const handleNumeroSerieChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setNumeroSerie(value);
+    onDataChange(index, 'numeroSerie', value);
   };
 
   const fieldData = [
@@ -69,7 +77,7 @@ const TireForm: React.FC<TireFormProps> = ({
       </h3>
 
       {/* Campos de entrada para los parámetros de la llanta */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         {fieldData.map((field) => (
           <div key={field.key}>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -84,6 +92,18 @@ const TireForm: React.FC<TireFormProps> = ({
             />
           </div>
         ))}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Número de Serie
+          </label>
+          <input
+            type="text"
+            value={numeroSerie || ""}
+            onChange={handleNumeroSerieChange}
+            className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Ej: ABC123456"
+          />
+        </div>
       </div>
 
       {/* Galería de fotos */}

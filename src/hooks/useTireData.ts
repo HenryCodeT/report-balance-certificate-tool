@@ -8,6 +8,7 @@ const initialTireData: TireData[] = [
         position: "LH1",
         contrapesoInterior: 0,
         contrapesoExterior: 0,
+        numeroSerie: "",
         photos: [],
     },
     {
@@ -15,6 +16,7 @@ const initialTireData: TireData[] = [
         position: "RH1",
         contrapesoInterior: 0,
         contrapesoExterior: 0,
+        numeroSerie: "",
         photos: [],
     },
     {
@@ -22,6 +24,7 @@ const initialTireData: TireData[] = [
         position: "LH2",
         contrapesoInterior: 0,
         contrapesoExterior: 0,
+        numeroSerie: "",
         photos: [],
     },
     {
@@ -29,6 +32,7 @@ const initialTireData: TireData[] = [
         position: "RH2",
         contrapesoInterior: 0,
         contrapesoExterior: 0,
+        numeroSerie: "",
         photos: [],
     },
 ];
@@ -37,10 +41,10 @@ export const useTireData = () => {
     const [tireData, setTireData] = useState<TireData[]>(initialTireData);
 
     const updateTireField = useCallback(
-        (index: number, field: TireFormFields, value: number) => {
+        (index: number, field: TireFormFields, value: number | string) => {
             setTireData((prev) => {
                 const newData = [...prev];
-                newData[index][field] = value;
+                (newData[index][field] as number | string) = value;
                 return newData;
             });
         },

@@ -31,6 +31,8 @@ const Home: React.FC = () => {
     codigo: "",
     modeloEquipo: "Microtec 795T",
     numeroLlantas: "2",
+    marcaNeumaticos: "",
+    modeloNeumaticos:""
   });
 
   // Estado del modal de previsualización

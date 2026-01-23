@@ -10,6 +10,7 @@ export interface TireData {
   position: "LH1" | "RH1" | "LH2" | "RH2";
   contrapesoInterior: number;      
   contrapesoExterior: number;
+  numeroSerie: string;
   photos: Photo[];
 }
 
@@ -25,6 +26,8 @@ export interface FormData {
   codigo: string;
   numeroLlantas: string;
   modeloEquipo: string;
+  marcaNeumaticos: string;
+  modeloNeumaticos: string;
 }
 
 export interface PreviewModalState {
